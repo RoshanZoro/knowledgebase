@@ -1,4 +1,5 @@
 
+
 # KB Search 🧠
 
 **A high-performance, multi-threaded Knowledge Base explorer built with C++ and wxWidgets.**
@@ -18,56 +19,62 @@ KB Search is a lightning-fast desktop utility designed for sysadmins and enginee
 
 * **Debounced Input**: Optimized search triggering to prevent unnecessary database load while typing.
 
-## 🛠️ Tech Stack
+## 🛠️ Prerequisites & Installation
 
-* **Language**: C++17
-* **Framework**: [wxWidgets 3.2+](https://www.wxwidgets.org/)
-* **Database**: SQLite 3 (with FTS5 enabled)
-* **Build System**: CMake
+### 1. Install Dependencies
 
-## 🚀 Getting Started
+The easiest way to manage **wxWidgets** on Windows is using [vcpkg](https://github.com/microsoft/vcpkg).
 
-### Prerequisites
-
-* **Windows**: Visual Studio 2022 (MSVC)
-* **CMake**: Version 3.16 or higher
-* **wxWidgets**: Set up as a system environment variable or included in your project path.
-
-### Installation & Build
-
-1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/kb_search.git
-cd kb_search
+# Clone vcpkg if you don't have it
+git clone https://github.com/microsoft/vcpkg.git
+.\vcpkg\bootstrap-vcpkg.bat
+
+# Install wxWidgets (x64 Windows)
+.\vcpkg\vcpkg install wxwidgets:x64-windows
+
+```
+
+### 2. Build the Project
+
+1. Clone this repository:
+```bash
+git clone https://github.com/RoshanZoro/knowledgebase.git
+cd knowledgebase
 
 ```
 
 
-2. Generate the build files:
+2. Configure with CMake (pointing to your vcpkg toolchain):
 ```bash
-cmake -B build -G "Visual Studio 17 2022" -A x64
+# Replace [path_to_vcpkg] with your actual vcpkg installation path
+cmake -B build -S . -DCMAKE_TOOLCHAIN_FILE=[path_to_vcpkg]/scripts/buildsystems/vcpkg.cmake -G "Visual Studio 17 2022" -A x64
 
 ```
 
 
-3. Build the Release version:
+3. Compile the Release binary:
 ```bash
 cmake --build build --config Release
 
 ```
 
 
-4. **Database Setup**: Ensure `knowledge_base.db` is placed in the same directory as the generated `.exe`.
+
+## 🚀 Getting Started
+
+Once built, ensure your `knowledge_base.db` is located in the same directory as the executable.
+
+* **Search**: Just start typing. The 250ms debounce and background thread will handle the rest.
+* **Filter**: Use the "Commands Only" checkbox to strip away prose and focus on CLI syntax.
+* **Copy**: Click "Copy" on any command line to send it to your clipboard instantly.
 
 ## 📂 Project Structure
 
-* `/src`: Core logic, Threading implementation, and UI Event handling.
+* `/src`: UI Event handling and Threading implementation.
 * `/include`: Header files and class definitions.
-* `/assets`: Themes and UI styling constants.
-* `sqlite3.c / .h`: Local SQLite implementation with FTS5 flags enabled.
-
-## 📝 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+* `/assets`: Theme constants and UI styling.
+* `sqlite3.c / .h`: Local SQLite implementation with `SQLITE_ENABLE_FTS5` enabled for maximum performance.
 
 ---
+
